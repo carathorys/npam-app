@@ -14,7 +14,7 @@ export abstract class BaseComponent<
     let state = this.GetNewStateInstance();
     const metadata = getMetadata(state);
     state.persistentProperties.push(...metadata.persistProperties);
-    const items = JSON.parse(localStorage.getItem(state.persistentStorage) ?? '');
+    const items = JSON.parse(localStorage.getItem(state.persistentStorage) ?? '{}');
     if (items instanceof Object)
       for (let key of metadata.persistProperties) {
         if (!!items[key]) {
