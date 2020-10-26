@@ -1,13 +1,12 @@
 import React, { ChangeEvent } from 'react';
 
-import { TextField, ThemeProvider, withStyles } from '@material-ui/core';
+import { Box, CssBaseline, Grid, Paper, withStyles } from '@material-ui/core';
 import { BaseComponent } from '../../../base';
-
-import { theme } from '../../../themes';
 
 import { LayoutProps } from './layout.props';
 import { LayoutState } from './layout.state';
 import { LayoutStyles } from './layout.styles';
+import { Copyright } from '../../common';
 
 class Layout extends BaseComponent<LayoutProps, LayoutState> {
   constructor(props: LayoutProps) {
@@ -26,18 +25,18 @@ class Layout extends BaseComponent<LayoutProps, LayoutState> {
   }
 
   render() {
+    const { children, classes } = this.props;
     return (
-      <ThemeProvider theme={theme(false)}>
-        <TextField
-          value={this.state?.loginName ?? ''}
-          title='Login name'
-          onChange={this.loginNameChange.bind(this)}></TextField>{' '}
-        <TextField
-          value={this.state?.password ?? ''}
-          title='Password'
-          type='password'
-          onChange={this.passwordChange.bind(this)}></TextField>
-      </ThemeProvider>
+      <Grid container component='main' className={classes.root}>
+        <CssBaseline />
+        <Grid item xs={false} sm={4} md={7} className={classes.image} />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6}>
+          <div className={classes.paper}>{children}</div>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
+        </Grid>
+      </Grid>
     );
   }
 }

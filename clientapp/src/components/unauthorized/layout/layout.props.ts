@@ -3,6 +3,4 @@ import { BaseProps } from '../../../base';
 
 import { LayoutStyles } from './layout.styles';
 
-export interface LayoutProps extends BaseProps, WithStyles<typeof LayoutStyles> {
-
-}
+export interface LayoutProps extends WithStyles<typeof LayoutStyles>, BaseProps {}
