@@ -14,7 +14,7 @@ class Layout extends BaseComponent<LayoutProps, LayoutState> {
   }
 
   loginNameChange(event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void {
-    this.setState({ ...this.state, loginName: event.target.value });
+    this.setState({ ...this.state, userName: event.target.value });
   }
   passwordChange(event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void {
     this.setState({ ...this.state, password: event.target.value });
@@ -27,16 +27,11 @@ class Layout extends BaseComponent<LayoutProps, LayoutState> {
   render() {
     const { children, classes } = this.props;
     return (
-      <Grid container component='main' className={classes.root}>
+      <React.Fragment>
         <CssBaseline />
-        <Grid item xs={false} sm={4} md={7} className={classes.image} />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6}>
-          <div className={classes.paper}>{children}</div>
-          <Box mt={5}>
-            <Copyright />
-          </Box>
-        </Grid>
-      </Grid>
+        <div className={classes.image} />
+        <Paper className={classes.paper} elevation={25}>{children}</Paper>
+      </React.Fragment>
     );
   }
 }
