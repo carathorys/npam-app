@@ -45,7 +45,7 @@ class App extends BaseComponent<AppProps, AppState> {
     const { classes } = this.props;
     return (
       <ThemeProvider theme={theme}>
-        <AppBar position='static' className={classes.header}>
+        <AppBar position='static' className={classes.header} elevation={15}>
           <Toolbar>
             <Typography variant='h6'>Some site title</Typography>
             <IconButton color='inherit' onClick={this.toggleDarkMode.bind(this)}>

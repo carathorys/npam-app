@@ -39,11 +39,11 @@ namespace app.Controllers
           {
             return Ok(new { Success = true });
           }
-          return BadRequest(new { Success = false, Message = "Access failure" });
+          return Unauthorized(new { Success = false, Message = "Invalid username, or password!" });
         }
-        return BadRequest(new { Success = false, Message = "Authentication failure" });
+        return Unauthorized(new { Success = false, Message = "Invalid username, or password!" });
       }
-      return BadRequest(new { Success = false, Message = "Start failure" });
+      return Unauthorized(new { Success = false, Message = "Invalid username, or password!" });
     }
 
     [HttpGet]
