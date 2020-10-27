@@ -1,5 +1,7 @@
 import { Theme } from '@material-ui/core/styles';
 
-export const LoginStyles = (theme: Theme) => {
-  return {};
-};
+export const LoginStyles = (theme: Theme) => ({
+  root: {
+    padding: theme.spacing(3),
+  },
+});

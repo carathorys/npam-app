@@ -5,7 +5,6 @@ export const darkTheme: ThemeOptions = {
   palette: {
     primary: {
       main: darken('#00ACE9', 0.5),
-
       contrastText: '#fff',
     },
     secondary: {
@@ -15,6 +14,10 @@ export const darkTheme: ThemeOptions = {
     error: {
       main: red.A700,
     },
-    type: 'light',
+    background: {
+      paper: darken('#fff', 0.3),
+      default: darken('#fff', 0.8),
+    },
+    type: 'dark',
   },
 };

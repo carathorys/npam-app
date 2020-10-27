@@ -1,12 +1,19 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "AspNetCore-React",
+  "name": "ASP.NET Core hosted React app with PAM authentictaion",
   "icons": [
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
+    {
+      "src": "background.jpg",
+      "sizes": "1920x1080",
+      "type": "image/jpeg"
+    }
+  ],
+  "icons_": [
     {
       "src": "logo192.png",
       "type": "image/png",

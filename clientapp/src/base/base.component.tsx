@@ -8,7 +8,7 @@ export abstract class BaseComponent<
   TState extends BaseState<TState>
 > extends Component<TProps, TState> {
   // eslint-disable-next-line @typescript-eslint/no-useless-constructor
-  constructor(props: TProps, initialStateObject: () => TState) {
+  constructor(props: TProps) {
     super(props);
 
     let state = this.GetNewStateInstance();
