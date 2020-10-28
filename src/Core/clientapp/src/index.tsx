@@ -5,9 +5,11 @@ import { AppComponent } from './app.component';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
+
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
+    <Router basename={baseUrl}>
       <AppComponent />
     </Router>
   </React.StrictMode>,

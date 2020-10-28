@@ -17,15 +17,14 @@ import { BaseComponent } from './base';
 import { AppState } from './app.state';
 import { AppProps } from './app.props';
 
-import { LayoutComponent } from './components';
+import { unauthorized, authorized } from './components';
 import { AppStyles } from './app.styles';
+import { AuthorizeRoute } from './components/common/authorize-route/authorize-route.component';
 
 class App extends BaseComponent<AppProps, AppState> {
   constructor(props) {
     super(props);
-    if (!!this.state?.theme) {
-      this.state = { ...this.state, theme: theme(this.state?.darkMode ?? false) };
-    }
+    this.state = { ...this.state, theme: theme(this.state?.darkMode ?? false) };
   }
 
   GetNewStateInstance(): AppState {
@@ -56,10 +55,10 @@ class App extends BaseComponent<AppProps, AppState> {
         <CssBaseline />
         <Switch>
           <Route exact path='/'>
-            <h1>Home!</h1>
+            <AuthorizeRoute component={authorized.LayoutComponent} />
           </Route>
-          <Route path='/unauthorized'>
-            <LayoutComponent />
+          <Route path='/authentication'>
+            <unauthorized.LayoutComponent />
           </Route>
         </Switch>
       </ThemeProvider>
