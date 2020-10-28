@@ -7,6 +7,6 @@ export class AppState extends BaseState<AppState> {
   @Persistent<AppState>(true)
   darkMode: boolean;
 
-  @Persistent<AppState>(true)
+  @Persistent<AppState>(false)
   theme: Theme;
 }

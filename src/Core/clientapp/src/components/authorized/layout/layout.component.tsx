@@ -7,7 +7,6 @@ import { BaseComponent } from '../../../base';
 import { LayoutProps } from './layout.props';
 import { LayoutState } from './layout.state';
 import { LayoutStyles } from './layout.styles';
-import { LoginComponent } from '../login/login.component';
 
 class Layout extends BaseComponent<LayoutProps, LayoutState> {
   GetNewStateInstance(): LayoutState {
@@ -34,7 +33,7 @@ class Layout extends BaseComponent<LayoutProps, LayoutState> {
             elevation={15}>
             <Switch>
               <Route path={match.path} exact>
-                <LoginComponent />
+                <h1>Authentication works!</h1>
               </Route>
             </Switch>
           </Grid>
