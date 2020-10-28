@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Core
+namespace FuryTechs.LinuxAdmin.Core
 {
   public class Startup
   {
@@ -21,16 +20,21 @@ namespace Core
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => Configuration.Bind("JwtSettings", options))
-        .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => Configuration.Bind("CookieSettings", options));
-
       services.AddControllersWithViews();
 
       // In production, the React files will be served from this directory
       services.AddSpaStaticFiles(configuration =>
       {
         configuration.RootPath = "clientapp/build";
+      });
+
+      services.AddIdentityServer(options =>
+      {
+        options.InputLengthRestrictions.Password = int.MaxValue;
+        options.Events.RaiseErrorEvents = true;
+        options.Events.RaiseInformationEvents = true;
+        options.Events.RaiseFailureEvents = true;
+        options.Events.RaiseSuccessEvents = true;
       });
     }
 
@@ -52,8 +56,6 @@ namespace Core
       app.UseStaticFiles();
       app.UseSpaStaticFiles();
 
-      app.UseAuthentication();
-      app.UseAuthorization();
       app.UseRouting();
 
       app.UseEndpoints(endpoints =>
