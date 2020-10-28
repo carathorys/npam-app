@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{32F726E2-2A41-40D3-8D95-69E6AFC2F122}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "src\Core\Core.csproj", "{25B4DED8-B3D0-4308-B40F-933F2426F2F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuryTechs.LinuxAdmin.Core", "src\Core\FuryTechs.LinuxAdmin.Core.csproj", "{25B4DED8-B3D0-4308-B40F-933F2426F2F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

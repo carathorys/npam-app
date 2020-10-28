@@ -3,7 +3,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Core
+namespace FuryTechs.LinuxAdmin.Core
 {
     public class Program
   {
