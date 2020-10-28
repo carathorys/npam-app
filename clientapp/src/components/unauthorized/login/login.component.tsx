@@ -8,7 +8,7 @@ import { LoginProps } from './login.props';
 import { LoginState } from './login.state';
 import { LoginStyles } from './login.styles';
 
-import 'login.styles.css';
+import './login.styles.css';
 
 class Login extends BaseComponent<LoginProps, LoginState> {
   GetNewStateInstance(): LoginState {
@@ -27,12 +27,20 @@ class Login extends BaseComponent<LoginProps, LoginState> {
       }),
     });
     let result = await httpResult.json();
+    if (result?.success !== true) {
+      this.setState({ ...this.state, hasError: true, errorMessage: result.message });
+    }
     console.log(result);
   }
 
   fieldChanged(field: keyof LoginState) {
     return (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-      this.setState({ ...this.state, [field]: event.target.value });
+      this.setState({
+        ...this.state,
+        hasError: false,
+        errorMessage: undefined,
+        [field]: event.target.value,
+      });
     };
   }
 
@@ -52,7 +60,10 @@ class Login extends BaseComponent<LoginProps, LoginState> {
           <TextField
             placeholder='Password'
             variant='outlined'
+            className={`${classes.formControl} ${this.state.hasError ? 'error' : ''}`}
             value={this.state?.password ?? ''}
+            error={this.state.hasError}
+            helperText={this.state.errorMessage}
             onChange={this.fieldChanged('password').bind(this)}
             type='password'
           />

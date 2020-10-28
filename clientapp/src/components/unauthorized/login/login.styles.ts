@@ -8,7 +8,7 @@ export const LoginStyles = (theme: Theme) => ({
     transform: 'translate3d(0,0,0)',
     perspective: 1000,
     '&.error': {
-      animation: 'shake 1s  cubic-bezier(.36,.07,.19,.97) both'
+      animation: 'shake 500ms  cubic-bezier(.36,.07,.19,.97) both'
     }
   },
 });

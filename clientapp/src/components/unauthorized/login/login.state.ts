@@ -8,5 +8,9 @@ export class LoginState extends BaseState<LoginState> {
   @Persistent<LoginState>(false)
   password: string;
 
+  @Persistent<LoginState>(false)
   hasError: boolean;
+
+  @Persistent<LoginState>(false)
+  errorMessage?: string;
 }
