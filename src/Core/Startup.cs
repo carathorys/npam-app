@@ -56,7 +56,7 @@ namespace FuryTechs.LinuxAdmin.Core
                     {
                         ClientId = "js",
                         ClientName = "JavaScript Client",
-                        AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                        AllowedGrantTypes = GrantTypes.ClientCredentials,
                         RequireClientSecret = false,
 
                         RedirectUris = {"https://localhost:5003/callback.html"},
