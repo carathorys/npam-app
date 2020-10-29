@@ -1,8 +1,11 @@
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using FuryTechs.LinuxAdmin.Identity;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 //using Npam;
 //using Npam.Interop;
@@ -15,19 +18,37 @@ namespace FuryTechs.LinuxAdmin.Core.Controllers
         public string UserName { get; set; }
         public string Password { get; set; }
     }
+
     [Route("api/login")]
     public class LoginController : ControllerBase
     {
-        public LoginModel LoginModel { get; set; }
+        private LoginModel LoginModel { get; set; }
 
+        [HttpGet]
+        public IActionResult Generate([FromServices] IAntiforgery antiforgery)
+        {
+            var tokens = antiforgery.GetAndStoreTokens(this.HttpContext);
+            return Ok(new
+            {
+                tokens.HeaderName,
+                tokens.RequestToken
+            });
+        }
+        
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginModel login)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(
+            [FromBody] LoginModel login,
+            [FromServices] SignInManager<User> signInManager
+            )
         {
             await Task.CompletedTask;
             LoginModel = login;
 
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest();
+
+            await signInManager.PasswordSignInAsync(login.UserName, login.Password, false, true);
 
             //using var session = new NpamSession("sudo", login.UserName, ConvHandler, IntPtr.Zero);
             //var retval = session.Start();

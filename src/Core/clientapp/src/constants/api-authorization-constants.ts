@@ -1,4 +1,4 @@
-export const ApplicationName = 'ASP.NETCoreWebApplication';
+export const ApplicationName = 'js';
 
 export const QueryParameterNames = {
   ReturnUrl: 'returnUrl',
