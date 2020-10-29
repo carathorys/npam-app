@@ -48,7 +48,10 @@ namespace FuryTechs.LinuxAdmin.Core.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            await signInManager.PasswordSignInAsync(login.UserName, login.Password, false, true);
+            var result = await signInManager.PasswordSignInAsync(login.UserName, login.Password, false, true);
+            if (result.Succeeded) {
+                return Ok(new {Success = true});
+            }
 
             //using var session = new NpamSession("sudo", login.UserName, ConvHandler, IntPtr.Zero);
             //var retval = session.Start();
