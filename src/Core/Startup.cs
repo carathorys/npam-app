@@ -60,8 +60,9 @@ namespace FuryTechs.LinuxAdmin.Core
                 .AddIdentityResources()
                 .AddApiResources()
                 .AddClients()
-                .AddSigningCredential(
-                    new X509Certificate2(Path.Combine(Directory.GetCurrentDirectory(), "Contents", "key.pfx")));
+                .AddDeveloperSigningCredential(true, "key.pfx");
+                // .AddSigningCredential(
+                //     new X509Certificate2(Path.Combine(Directory.GetCurrentDirectory(), "Contents", "key.pfx")));
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();

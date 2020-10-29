@@ -36,7 +36,7 @@ namespace FuryTechs.LinuxAdmin.Identity
         {
             await Task.CompletedTask;
             Logger.LogInformation("Check user's credentials: {user}", user.UserName);
-            using var session = new NpamSession("sudo", user.UserName, ConversionHandler(password), IntPtr.Zero);
+            using var session = new NpamSession("sudo", user.UserName.ToLower(), ConversionHandler(password), IntPtr.Zero);
             var retval = session.Start();
 
             if (retval != PamStatus.PAM_SUCCESS) return false;
