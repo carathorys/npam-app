@@ -32,7 +32,7 @@ class Layout extends BaseComponent<LayoutProps, LayoutState> {
             className={classes.paper}
             elevation={15}>
             <Switch>
-              <Route path={match.path} exact>
+              <Route path={match.path}>
                 <h1>Authentication works!</h1>
               </Route>
             </Switch>

@@ -1,4 +1,4 @@
-import * as unauthorized from './unauthorized';
-import * as authorized from './authorized';
+import {LayoutComponent as AuthenticationLayout} from './authentication';
+import {LayoutComponent as AuthorizedLayout} from "./authorized";
 
-export { unauthorized, authorized };
+export { AuthenticationLayout, AuthorizedLayout };

@@ -1,21 +1,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
-using FuryTechs.LinuxAdmin.Core.ProfileService;
-using FuryTechs.LinuxAdmin.Core.Validators;
-using IdentityServer4;
+using FuryTechs.LinuxAdmin.Identity;
 using IdentityServer4.Models;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Npam;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace FuryTechs.LinuxAdmin.Core
 {
@@ -37,6 +32,20 @@ namespace FuryTechs.LinuxAdmin.Core
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "clientapp/build"; });
             services.AddHttpContextAccessor();
 
+            services.AddAuthentication(o =>
+                {
+                    o.DefaultScheme = IdentityConstants.ApplicationScheme;
+                    o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+                })
+                .AddIdentityCookies(o => { });
+
+            services
+                .AddLinuxIdentity()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
+
+            services.AddAntiforgery();
+
             services.AddIdentityServer(options =>
                 {
                     options.InputLengthRestrictions.Password = int.MaxValue;
@@ -45,36 +54,21 @@ namespace FuryTechs.LinuxAdmin.Core
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
                 })
-                .AddInMemoryCaching()
-                .AddInMemoryApiScopes(new List<ApiScope>
-                {
-                })
-                .AddInMemoryClients(new List<Client>
-                {
-                    // JavaScript Client
-                    new Client
-                    {
-                        ClientId = "js",
-                        ClientName = "JavaScript Client",
-                        AllowedGrantTypes = GrantTypes.ClientCredentials,
-                        RequireClientSecret = false,
-
-                        RedirectUris = {"https://localhost:5003/callback.html"},
-                        PostLogoutRedirectUris = {"https://localhost:5003/index.html"},
-                        AllowedCorsOrigins = {"https://localhost:5003"},
-
-                        AllowedScopes =
-                        {
-                            IdentityServerConstants.StandardScopes.OpenId,
-                            IdentityServerConstants.StandardScopes.Profile,
-                            "api1"
-                        }
-                    }
-                })
-                .AddResourceOwnerValidator<PamUserValidator>()
-                .AddProfileService<PamProfileService>()
+                .AddAspNetIdentity<User>()
+                .AddJwtBearerClientAuthentication()
+                .AddInMemoryPersistedGrants()
+                .AddIdentityResources()
+                .AddApiResources()
+                .AddClients()
                 .AddSigningCredential(
                     new X509Certificate2(Path.Combine(Directory.GetCurrentDirectory(), "Contents", "key.pfx")));
+
+            services.AddAuthentication()
+                .AddIdentityServerJwt();
+
+
+            services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
 

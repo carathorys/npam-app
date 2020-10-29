@@ -13,4 +13,10 @@ export class LoginState extends BaseState<LoginState> {
 
   @Persistent<LoginState>(false)
   errorMessage?: string;
+
+  @Persistent<LoginState>(false)
+  csrfTokenHeaderName?:string;
+
+  @Persistent<LoginState>(false)
+  csrfTokenValue?: string;
 }
