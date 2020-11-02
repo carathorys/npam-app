@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using FuryTechs.LinuxAdmin.Core.Validation;
 using FuryTechs.LinuxAdmin.Identity;
 using IdentityServer4;
 using IdentityServer4.Models;
@@ -35,10 +36,10 @@ namespace FuryTechs.LinuxAdmin.Core {
                 })
                 .AddIdentityCookies (o => { });
 
-            services
-                .AddLinuxIdentity ()
-                .AddDefaultUI ()
-                .AddDefaultTokenProviders ();
+            // services
+            //     .AddDefaultIdentity<FuryTechs.LinuxAdmin.Identity.User>()
+            //     .AddDefaultUI ()
+            //     .AddDefaultTokenProviders ();
 
             services.AddAntiforgery ();
 
@@ -49,7 +50,6 @@ namespace FuryTechs.LinuxAdmin.Core {
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
                 })
-                .AddAspNetIdentity<User> ()
                 .AddInMemoryPersistedGrants ()
                 .AddInMemoryIdentityResources (new IdentityResource[] {
                     new IdentityResources.OpenId (),
@@ -96,7 +96,9 @@ namespace FuryTechs.LinuxAdmin.Core {
                             AllowOfflineAccess = true
                     }
                 })
-                .AddDeveloperSigningCredential (true, "key.pfx");
+                .AddDeveloperSigningCredential (true, "key.pfx")
+                .AddResourceOwnerValidator<PamResourceOwnerPasswordValidator>();
+                ;
 
             services.AddAuthentication ()
                 .AddIdentityServerJwt ();
