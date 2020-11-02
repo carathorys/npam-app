@@ -9,7 +9,6 @@
             return services
                 .AddIdentityCore<FuryTechs.LinuxAdmin.Identity.User>()
                 .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<FuryTechs.LinuxAdmin.Identity.User>>()
-                
                 .AddUserStore<FuryTechs.LinuxAdmin.Identity.UserStore>()
                 .AddUserManager<FuryTechs.LinuxAdmin.Identity.UserManager>()
                 .AddRoles<FuryTechs.LinuxAdmin.Identity.Role>()
