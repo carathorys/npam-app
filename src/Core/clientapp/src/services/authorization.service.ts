@@ -200,7 +200,8 @@ export class AuthorizeService {
       prefix: ApplicationName,
     });
 
-    this.userManager = new UserManager(settings);
+    this.userManager = new UserManager({
+    });
 
     this.userManager.events.addUserSignedOut(async () => {
       await this.userManager.removeUser();
