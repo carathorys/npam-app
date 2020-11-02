@@ -58,7 +58,7 @@ export class AuthorizeRoute extends Component<any, AuthorizeRouteState> {
             const authenticated = await authService.isAuthenticated();
             this.setState({ready: true, authenticated});
         } catch (error) {
-            console.log(error);
+            this.setState({ready: true, authenticated: false});
         }
     }
 

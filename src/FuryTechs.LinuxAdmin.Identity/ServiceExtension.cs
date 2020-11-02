@@ -7,14 +7,14 @@
         public static IdentityBuilder AddLinuxIdentity(this IServiceCollection services)
         {
             return services
-                .AddIdentity<FuryTechs.LinuxAdmin.Identity.User, FuryTechs.LinuxAdmin.Identity.Role>()
-                // .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<FuryTechs.LinuxAdmin.Identity.User>>()
-                // .AddUserStore<FuryTechs.LinuxAdmin.Identity.UserStore>()
-                // .AddUserManager<FuryTechs.LinuxAdmin.Identity.UserManager>()
-                // .AddRoles<FuryTechs.LinuxAdmin.Identity.Role>()
-                // .AddRoleStore<FuryTechs.LinuxAdmin.Identity.RoleStore>()
-                // .AddRoleManager<FuryTechs.LinuxAdmin.Identity.RoleManager>()
-                // .AddSignInManager<FuryTechs.LinuxAdmin.Identity.SignInManager>()
+                .AddIdentityCore<FuryTechs.LinuxAdmin.Identity.User>()
+                .AddSignInManager<FuryTechs.LinuxAdmin.Identity.SignInManager>()
+                .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<FuryTechs.LinuxAdmin.Identity.User>>()
+                .AddUserStore<FuryTechs.LinuxAdmin.Identity.UserStore>()
+                .AddUserManager<FuryTechs.LinuxAdmin.Identity.UserManager>()
+                .AddRoles<FuryTechs.LinuxAdmin.Identity.Role>()
+                .AddRoleStore<FuryTechs.LinuxAdmin.Identity.RoleStore>()
+                .AddRoleManager<FuryTechs.LinuxAdmin.Identity.RoleManager>()
                 ;
         }
     }

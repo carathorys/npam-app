@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace FuryTechs.LinuxAdmin.Core.Controllers
+namespace FuryTechs.LinuxAdmin.IdentityProvider.Controllers
 {
     public class OidcConfigurationController : ControllerBase
     {
