@@ -14,10 +14,7 @@ export const darkTheme: ThemeOptions = {
     error: {
       main: red.A700,
     },
-    background: {
-      paper: darken('#fff', 0.3),
-      default: darken('#fff', 0.8),
-    },
+   
     type: 'dark',
   },
 };

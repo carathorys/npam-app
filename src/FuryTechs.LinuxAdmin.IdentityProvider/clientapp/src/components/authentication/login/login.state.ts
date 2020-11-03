@@ -3,8 +3,11 @@ import { Persistent, PersistState } from '../../../base/base.state.decorator';
 
 @PersistState('LoginComponent')
 export class LoginState extends BaseState<LoginState> {
-  @Persistent<LoginState>(true)
+  @Persistent<LoginState>(false)
   loginName: string;
+
+  @Persistent<LoginState>(true)
+  remember: boolean;
 
   @Persistent<LoginState>(false)
   password: string;
@@ -20,9 +23,6 @@ export class LoginState extends BaseState<LoginState> {
 
   @Persistent<LoginState>(false)
   csrfTokenHeaderName?: string;
-
-  @Persistent<LoginState>(false)
-  pkcsCodeVerifier?: string;
 
   @Persistent<LoginState>(false)
   csrfTokenValue?: string;

@@ -33,9 +33,5 @@ namespace FuryTechs.LinuxAdmin.Identity {
       bool lockoutOnFailure) {
       return base.PasswordSignInAsync (user, password, isPersistent, lockoutOnFailure);
     }
-    public override Task SignOutAsync () {
-      return base.SignOutAsync ();
-    }
-
   }
 }

@@ -1,5 +1,4 @@
 import { User, UserManager, WebStorageStateStore } from 'oidc-client';
-import { ApplicationPaths, ApplicationName } from '../constants';
 
 export class AuthorizeService {
   _callbacks = [];
@@ -11,15 +10,44 @@ export class AuthorizeService {
   // If you want to enable pop up authentication simply set this flag to false.
   _popUpDisabled = true;
 
-  userManager: UserManager;
+  public userManager: UserManager;
 
   async isAuthenticated() {
     const user = await this.getUser();
     return !!user;
   }
 
+  public async LogIn(loginName: string, password: string): Promise<boolean> {
+    const data = new URLSearchParams();
+    data.append('client_id', 'js');
+    data.append('grant_type', 'password');
+    data.append('scope', 'openid profile');
+    data.append('username', loginName);
+    data.append('password', password);
+
+    let httpResult = await fetch(`/connect/token`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: data,
+      redirect: 'manual',
+    });
+    try {
+      let result = await httpResult.json();
+      if (httpResult?.ok !== true) {
+        throw new Error('Invalid username or password!');
+      } else {
+        // TODO: Logged in!
+        // this.setState({ ...this.state, hasError: false, loading: false, errorMessage: null });
+        return true;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
+
   async getUser() {
-    console.log(this._user);
     if (!!this._user?.profile) {
       return this._user.profile;
     }
@@ -188,20 +216,15 @@ export class AuthorizeService {
       return;
     }
 
-    let response = await fetch(ApplicationPaths.ApiAuthorizationClientConfigurationUrl);
-    if (!response.ok) {
-      throw new Error(`Could not load settings for '${ApplicationName}'`);
-    }
+    let settings = {
+      automaticSilentRenew: true,
+      includeIdTokenInSilentRenew: true,
+      userStore: new WebStorageStateStore({
+        prefix: 'app',
+      }),
+    };
 
-    let settings = await response.json();
-    settings.automaticSilentRenew = true;
-    settings.includeIdTokenInSilentRenew = true;
-    settings.userStore = new WebStorageStateStore({
-      prefix: ApplicationName,
-    });
-
-    this.userManager = new UserManager({
-    });
+    this.userManager = new UserManager(settings);
 
     this.userManager.events.addUserSignedOut(async () => {
       await this.userManager.removeUser();
