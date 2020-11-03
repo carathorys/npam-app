@@ -36,6 +36,7 @@ namespace FuryTechs.LinuxAdmin.IdentityProvider.Controllers
     public async Task<IActionResult> Login(
       LoginModel model,
       [FromServices] UserManager<User> userManager,
+      [FromServices] SignInManager<User> signInManager,
       [FromServices] IIdentityServerInteractionService interaction,
       [FromServices] IClientStore clientStore,
       [FromServices] IAuthenticationSchemeProvider schemeProvider,
@@ -47,40 +48,31 @@ namespace FuryTechs.LinuxAdmin.IdentityProvider.Controllers
 
       var context = await interaction.GetAuthorizationContextAsync(model.ReturnUrl);
 
-      var user = await userManager.FindByNameAsync(model.UserName);
-      if (user != null)
+      var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberLogin, true);
+      if (result.Succeeded)
       {
-        var pwResult = await userManager.CheckPasswordAsync(user, model.Password);
-        if (pwResult)
+        var user = await userManager.FindByNameAsync(model.UserName);
+        await events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));
+
+        // only set explicit expiration here if user chooses "remember me". 
+        // otherwise we rely upon expiration configured in cookie middleware.
+        AuthenticationProperties props = null;
+        if (model.RememberLogin)
         {
-          await events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.Client.ClientId));
-
-          // only set explicit expiration here if user chooses "remember me". 
-          // otherwise we rely upon expiration configured in cookie middleware.
-          AuthenticationProperties props = null;
-          if (model.RememberLogin)
+          props = new AuthenticationProperties
           {
-            props = new AuthenticationProperties
-            {
-              IsPersistent = true,
-              ExpiresUtc = DateTimeOffset.UtcNow.Add(TimeSpan.FromDays(31))
-            };
+            IsPersistent = true,
+            ExpiresUtc = DateTimeOffset.UtcNow.Add(TimeSpan.FromDays(31))
           };
+        };
 
-          var issuer = new IdentityServerUser(user.Id)
-          {
-            DisplayName = user.UserName
-          };
-          var princ = issuer.CreatePrincipal();
-          await HttpContext.SignInAsync(issuer.CreatePrincipal(), props);
+        var issuer = new IdentityServerUser(user.Id)
+        {
+          DisplayName = user.UserName
+        };
+        await HttpContext.SignInAsync(issuer, props);
 
-        }
       }
-      // var result = await .PasswordSignInAsync(login.UserName, login.Password, false, true);
-      // if (result.Succeeded)
-      // {
-      //   return Ok(new LoginResult { Success = true });
-      // }
 
       return Ok(new LoginResult { Success = false, ErrorMessage = "Invalid username or password!" });
     }

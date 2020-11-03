@@ -1,14 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>FuryTechs.LinuxAdmin.Identity</RootNamespace>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.9" />
-      <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.9" />
-      <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.9" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0-rc.2.20475.5" />
+      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0-rc.2.20475.5" />
+      <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.0-rc.2.20475.17" />
+      <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.0-rc.2.20475.17" />
+
       <PackageReference Include="Npam" Version="1.0.1" />
     </ItemGroup>
 
