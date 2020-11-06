@@ -35,7 +35,10 @@ namespace FuryTechs.LinuxAdmin.IdentityProvider.Controllers
         {
           tokens.HeaderName,
           tokens.RequestToken,
-          pub = rsa.ToJwk(RSAEncryptionPadding.OaepSHA256, false)
+          pub = rsa.ToJwk(
+            padding: RSAEncryptionPadding.OaepSHA256,
+            includePrivateKey: false
+          )
         });
       }
       finally
@@ -57,28 +60,10 @@ namespace FuryTechs.LinuxAdmin.IdentityProvider.Controllers
       return jwk.ToRSA();
     }
 
-    private LoginModel DecryptPayload(string encryptedPayload)
-    {
-      var key = GetEncryptionKey();
-      try
-      {
-        var decryptedValue = key.Rsa.Decrypt(Convert.FromBase64String(encryptedPayload), key.Padding);
-        var str = System.Text.Encoding.UTF8.GetString(decryptedValue);
-        return System.Text.Json.JsonSerializer.Deserialize<LoginModel>(str);
-      }
-      catch (Exception ex)
-      {
-        return null;
-      }
-      finally
-      {
-        key.Rsa.Dispose();
-      }
-    }
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(
+      [FromBody] LoginModel model,
       [FromServices] UserManager<User> userManager,
       [FromServices] SignInManager<User> signInManager,
       [FromServices] IIdentityServerInteractionService interaction,
@@ -89,13 +74,11 @@ namespace FuryTechs.LinuxAdmin.IdentityProvider.Controllers
     {
       if (!ModelState.IsValid)
         return BadRequest();
-      var x = (await Request.GetRawBodyStringAsync());
-
-      var model = DecryptPayload(x);
 
       var context = await interaction.GetAuthorizationContextAsync(model.ReturnUrl);
 
       var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberLogin, true);
+
       if (result.Succeeded)
       {
         var user = await userManager.FindByNameAsync(model.UserName);

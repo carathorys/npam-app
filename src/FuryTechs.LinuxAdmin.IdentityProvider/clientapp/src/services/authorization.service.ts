@@ -54,6 +54,7 @@ export class AuthorizeService {
     if (tokenRequest.ok !== true) {
       throw new Error("Can't fetch CFRS token!");
     }
+
     const cfrs = await tokenRequest.json();
     const key = await window.crypto.subtle.importKey(
       'jwk',
@@ -70,7 +71,7 @@ export class AuthorizeService {
     let httpResult = await fetch(`/account/login`, {
       method: 'post',
       headers: {
-        'Content-Type': 'text/plain',
+        'Content-Type': 'application/json',
         [cfrs.headerName]: cfrs.requestToken,
       },
       body: data,
