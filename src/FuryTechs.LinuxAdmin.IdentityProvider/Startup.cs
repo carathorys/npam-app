@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using FuryTechs.LinuxAdmin.Identity;
 using IdentityServer4;
@@ -32,9 +33,16 @@ namespace FuryTechs.LinuxAdmin.IdentityProvider
       services.AddControllersWithViews();
       services.AddAntiforgery();
 
+      services.AddSession(c =>
+      {
+        c.IdleTimeout = TimeSpan.FromHours(1);
+      });
+
       services
           .AddLinuxIdentity()
           .AddDefaultTokenProviders();
+
+      services.AddScoped<RSA>((s) => RSA.Create(4096));
 
       services.AddIdentityServer(options =>
       {
@@ -96,7 +104,10 @@ namespace FuryTechs.LinuxAdmin.IdentityProvider
 
       services.AddAuthentication()
           .AddIdentityServerJwt();
-
+      services.AddMvc().AddJsonOptions(options =>
+      {
+        options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+      });
       services.AddHttpContextAccessor();
       services.AddSpaStaticFiles(configuration => configuration.RootPath = "clientapp/build");
     }
@@ -113,6 +124,11 @@ namespace FuryTechs.LinuxAdmin.IdentityProvider
       app.UseSpaStaticFiles();
       app.UseRouting();
 
+      app.UseAuthentication();
+      app.UseIdentityServer();
+      app.UseAuthorization();
+      app.UseSession();
+
       app.UseEndpoints(endpoints =>
       {
         endpoints.MapControllerRoute(
@@ -120,10 +136,6 @@ namespace FuryTechs.LinuxAdmin.IdentityProvider
             pattern: "{controller}/{action=Index}/{id?}"
         );
       });
-
-      app.UseAuthentication();
-      app.UseIdentityServer();
-      app.UseAuthorization();
 
       app.UseSpa(spa =>
       {

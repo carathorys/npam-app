@@ -17,29 +17,70 @@ export class AuthorizeService {
     return !!user;
   }
 
-  public async LogIn(loginName: string, password: string): Promise<boolean> {
-    const data = new URLSearchParams();
-    data.append('client_id', 'js');
-    data.append('grant_type', 'password');
-    data.append('scope', 'openid profile');
-    data.append('username', loginName);
-    data.append('password', password);
+  async generateEncryptedPayload(
+    loginName: string,
+    password: string,
+    publicKey: CryptoKey,
+    remember: boolean = false,
+  ) {
+    const encoder = new TextEncoder();
 
-    let httpResult = await fetch(`/connect/token`, {
+    const cipher = await window.crypto.subtle.encrypt(
+      { name: 'RSA-OAEP' },
+      publicKey,
+      encoder.encode(
+        JSON.stringify({
+          UserName: loginName,
+          Password: password,
+          RememberLogin: remember,
+        }),
+      ),
+    );
+    const arr = new Uint8Array(cipher);
+    let s = '';
+    for (let d of arr) {
+      s += String.fromCharCode(d);
+    }
+
+    return btoa(s);
+  }
+
+  public async LogIn(
+    loginName: string,
+    password: string,
+    remember: boolean = false,
+  ): Promise<boolean> {
+    var tokenRequest = await fetch('account/generate', { method: 'get' });
+    if (tokenRequest.ok !== true) {
+      throw new Error("Can't fetch CFRS token!");
+    }
+    const cfrs = await tokenRequest.json();
+    const key = await window.crypto.subtle.importKey(
+      'jwk',
+      cfrs.pub,
+      {
+        name: 'RSA-OAEP',
+        hash: 'SHA-256',
+      },
+      false,
+      ['encrypt'],
+    );
+    const data = await this.generateEncryptedPayload(loginName, password, key, remember);
+
+    let httpResult = await fetch(`/account/login`, {
       method: 'post',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'text/plain',
+        [cfrs.headerName]: cfrs.requestToken,
       },
       body: data,
       redirect: 'manual',
     });
+
     try {
-      let result = await httpResult.json();
       if (httpResult?.ok !== true) {
         throw new Error('Invalid username or password!');
       } else {
-        // TODO: Logged in!
-        // this.setState({ ...this.state, hasError: false, loading: false, errorMessage: null });
         return true;
       }
     } catch (error) {

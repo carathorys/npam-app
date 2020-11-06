@@ -8,7 +8,7 @@ export const LayoutStyles = (theme: Theme) =>
     },
     
     paper: {
-      background: fade(theme.palette.background.paper, 0.2),
+      background: fade(theme.palette.background.paper, 0.3),
       backdropFilter: 'blur(50px)',
     },
   });

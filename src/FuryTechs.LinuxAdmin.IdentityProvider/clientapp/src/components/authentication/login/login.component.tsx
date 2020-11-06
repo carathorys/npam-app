@@ -28,71 +28,31 @@ class Login extends BaseComponent<LoginProps, LoginState> {
     return new LoginState();
   }
 
-  async fetchCsrfToken() {
-    const http = await fetch('/api/authentication');
-    const json = await http.json();
-
-    this.setState({
-      ...this.state,
-      csrfTokenHeaderName: json.headerName,
-      csrfTokenValue: json.requestToken,
-    });
-  }
-
   async handleLogin(event: MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> {
     this.setState({ ...this.state, hasError: false, loading: true });
-    var tokenRequest = await fetch('account/generate', { method: 'get' });
-    if (tokenRequest.ok !== true) {
+
+    const loginResult = await authService.LogIn(
+      this.state.loginName,
+      this.state.password,
+      this.state.remember,
+    );
+    if (loginResult !== true) {
       this.setState({
         ...this.state,
         hasError: true,
         loading: false,
         errorMessage: 'Invalid username or password!',
       });
-      return;
+    } else {
+      this.setState({ ...this.state, hasError: false, loading: false });
     }
-    const cfrs = await tokenRequest.json();
-    const data = new URLSearchParams();
-    data.append('client_id', 'js');
-    data.append('grant_type', 'password');
-    data.append('scope', 'openid profile');
-    data.append('username', this.state.loginName);
-    data.append('password', this.state.password);
-    data.append('rememberLogin', this.state.remember.toString());
-
-    let httpResult = await fetch(`/account/login`, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        [cfrs.headerName]: cfrs.requestToken,
-      },
-      body: data,
-      redirect: 'manual',
-    });
-
-    // const loginResult = await authService.LogIn(this.state.loginName, this.state.password);
-    // if (loginResult !== true) {
-    this.setState({
-      ...this.state,
-      hasError: true,
-      loading: false,
-      errorMessage: 'Invalid username or password!',
-    });
-    // } else {
-    //   this.setState({ ...this.state, hasError: false, loading: false });
-    // }
   }
 
-  async componentDidMount() {
-    await this.fetchCsrfToken();
-  }
-
-  getKeysToStore(): Array<keyof LoginState> {
+  getKeysToStore(): Array<{ key: keyof LoginState; remove?: boolean }> {
     const baseValue = super.getKeysToStore();
-    if (this.state.remember === true) {
-      baseValue.push('loginName');
-      baseValue.push('password');
-    }
+    const shouldRemove = this.state.remember !== true;
+    baseValue.push({ key: 'loginName', remove: shouldRemove });
+    baseValue.push({ key: 'password', remove: shouldRemove });
     return baseValue;
   }
 

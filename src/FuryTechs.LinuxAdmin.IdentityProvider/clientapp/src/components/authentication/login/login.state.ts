@@ -7,7 +7,7 @@ export class LoginState extends BaseState<LoginState> {
   loginName: string;
 
   @Persistent<LoginState>(true)
-  remember: boolean;
+  remember: boolean = false;
 
   @Persistent<LoginState>(false)
   password: string;
