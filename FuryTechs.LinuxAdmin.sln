@@ -1,15 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30611.23
+# Visual Studio 15
+VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{32F726E2-2A41-40D3-8D95-69E6AFC2F122}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7C14494E-048C-4D11-B93C-073C4EAB7C19}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuryTechs.LinuxAdmin.Core", "src\Core\FuryTechs.LinuxAdmin.Core.csproj", "{25B4DED8-B3D0-4308-B40F-933F2426F2F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuryTechs.LinuxAdmin.IdentityProvider", "src\FuryTechs.LinuxAdmin.IdentityProvider\FuryTechs.LinuxAdmin.IdentityProvider.csproj", "{50C42C90-565D-4F2D-B1C8-D555F740236D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuryTechs.LinuxAdmin.Identity", "src\FuryTechs.LinuxAdmin.Identity\FuryTechs.LinuxAdmin.Identity.csproj", "{E231DC4C-2DF3-47D6-950D-2D950F5F044F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuryTechs.LinuxAdmin.Identity", "src\FuryTechs.LinuxAdmin.Identity\FuryTechs.LinuxAdmin.Identity.csproj", "{58F17E4F-87D4-4865-9A31-FEE5B21542A2}"
 EndProject
 Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -19,39 +22,33 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3}.Debug|x64.Build.0 = Debug|Any CPU
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3}.Debug|x86.Build.0 = Debug|Any CPU
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3}.Release|x64.ActiveCfg = Release|Any CPU
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3}.Release|x64.Build.0 = Release|Any CPU
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3}.Release|x86.ActiveCfg = Release|Any CPU
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3}.Release|x86.Build.0 = Release|Any CPU
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F}.Debug|x64.Build.0 = Debug|Any CPU
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F}.Debug|x86.Build.0 = Debug|Any CPU
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F}.Release|x64.ActiveCfg = Release|Any CPU
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F}.Release|x64.Build.0 = Release|Any CPU
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F}.Release|x86.ActiveCfg = Release|Any CPU
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F}.Release|x86.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+		{50C42C90-565D-4F2D-B1C8-D555F740236D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50C42C90-565D-4F2D-B1C8-D555F740236D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50C42C90-565D-4F2D-B1C8-D555F740236D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{50C42C90-565D-4F2D-B1C8-D555F740236D}.Debug|x64.Build.0 = Debug|Any CPU
+		{50C42C90-565D-4F2D-B1C8-D555F740236D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{50C42C90-565D-4F2D-B1C8-D555F740236D}.Debug|x86.Build.0 = Debug|Any CPU
+		{50C42C90-565D-4F2D-B1C8-D555F740236D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50C42C90-565D-4F2D-B1C8-D555F740236D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50C42C90-565D-4F2D-B1C8-D555F740236D}.Release|x64.ActiveCfg = Release|Any CPU
+		{50C42C90-565D-4F2D-B1C8-D555F740236D}.Release|x64.Build.0 = Release|Any CPU
+		{50C42C90-565D-4F2D-B1C8-D555F740236D}.Release|x86.ActiveCfg = Release|Any CPU
+		{50C42C90-565D-4F2D-B1C8-D555F740236D}.Release|x86.Build.0 = Release|Any CPU
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2}.Debug|x64.Build.0 = Debug|Any CPU
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2}.Debug|x86.Build.0 = Debug|Any CPU
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2}.Release|x64.ActiveCfg = Release|Any CPU
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2}.Release|x64.Build.0 = Release|Any CPU
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2}.Release|x86.ActiveCfg = Release|Any CPU
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{25B4DED8-B3D0-4308-B40F-933F2426F2F3} = {32F726E2-2A41-40D3-8D95-69E6AFC2F122}
-		{E231DC4C-2DF3-47D6-950D-2D950F5F044F} = {32F726E2-2A41-40D3-8D95-69E6AFC2F122}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {110E66F7-0A1E-4836-9806-C92F7DEBC00C}
+		{50C42C90-565D-4F2D-B1C8-D555F740236D} = {7C14494E-048C-4D11-B93C-073C4EAB7C19}
+		{58F17E4F-87D4-4865-9A31-FEE5B21542A2} = {7C14494E-048C-4D11-B93C-073C4EAB7C19}
 	EndGlobalSection
 EndGlobal
