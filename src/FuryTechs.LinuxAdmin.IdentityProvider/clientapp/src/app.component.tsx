@@ -1,73 +1,45 @@
-import {
-  AppBar,
-  CssBaseline,
-  IconButton,
-  ThemeProvider,
-  Toolbar,
-  Typography,
-  withStyles,
-} from '@material-ui/core';
+import { AppBar, Box, CssBaseline, IconButton, Theme, ThemeProvider, Toolbar, Typography } from '@mui/material';
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Brightness3 as Dark, Brightness7 as Bright } from '@material-ui/icons';
+import { Brightness3 as Dark, Brightness7 as Bright } from '@mui/icons-material';
 
 import { theme } from './themes';
-import { BaseComponent } from './base';
-
-import { AppState } from './app.state';
-import { AppProps } from './app.props';
 
 import { AuthenticationLayout, AuthorizedLayout } from './components';
-import { AppStyles } from './app.styles';
 import { AuthorizeRoute } from './components/common/authorize-route/authorize-route.component';
 
-class App extends BaseComponent<AppProps, AppState> {
-  constructor(props) {
-    super(props);
-    this.state = { ...this.state, theme: theme(this.state?.darkMode ?? false) };
-  }
+import { headerStyle, imageStyle } from './app.styles';
 
-  GetNewStateInstance(): AppState {
-    return new AppState();
-  }
+export const AppComponent = () => {
+  const [darkMode, updateDarkMode] = React.useState(false);
+  const currentTheme = React.useMemo(() => {
+    return theme(darkMode);
+  }, [darkMode]);
 
-  toggleDarkMode() {
-    this.setState({
-      ...this.state,
-      darkMode: !this.state.darkMode,
-      theme: theme(!this.state.darkMode),
-    });
-  }
-
-  render() {
-    const { darkMode, theme } = this.state;
-    const { classes } = this.props;
-    return (
-      <React.Fragment>
-        <div className={classes.image} />
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <AppBar position='static' className={classes.header} elevation={15}>
-            <Toolbar>
-              <Typography variant='h6'>Some site title</Typography>
-              <IconButton color='inherit' onClick={this.toggleDarkMode.bind(this)}>
-                {!darkMode ? <Dark /> : <Bright />}
-              </IconButton>
-            </Toolbar>
-          </AppBar>
-          <CssBaseline />
-          <Switch>
-            <Route path='/' exact>
-              <AuthorizeRoute component={AuthorizedLayout} />
-            </Route>
-            <Route path='/authentication/'>
-              <AuthenticationLayout />
-            </Route>
-          </Switch>
-        </ThemeProvider>
-      </React.Fragment>
-    );
-  }
-}
-
-export const AppComponent = withStyles(AppStyles)(App);
+  return (
+    <React.Fragment>
+      <Box sx={imageStyle} />
+      <ThemeProvider theme={currentTheme}>
+        <CssBaseline />
+        <AppBar position="static" sx={headerStyle} elevation={15}>
+          <Toolbar>
+            <Typography variant="h6">Some site title</Typography>
+            <Box sx={{ flex: 1 }} />
+            <IconButton color="inherit" onClick={() => updateDarkMode((prev) => !prev)}>
+              {!darkMode ? <Dark /> : <Bright />}
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <CssBaseline />
+        <Switch>
+          <Route path="/" exact>
+            <AuthorizeRoute component={AuthorizedLayout} />
+          </Route>
+          <Route path="/authentication/">
+            <AuthenticationLayout />
+          </Route>
+        </Switch>
+      </ThemeProvider>
+    </React.Fragment>
+  );
+};

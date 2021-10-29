@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@mui/material';
 import { AuthorizeRouteState } from './authorize-route.state';
 import { authService } from '../../../services';
 
@@ -35,13 +35,13 @@ export class AuthorizeRoute extends Component<any, AuthorizeRouteState> {
     if (!ready) {
       return <CircularProgress />;
     } else {
-      const { component: Component, ...rest } = this.props;
+      const { component: CurrentComponent, ...rest } = this.props;
       return (
         <Route
           {...rest}
           render={(props) => {
             if (authenticated) {
-              return <Component {...props} />;
+              return <CurrentComponent {...props} />;
             } else {
               return <Redirect to={redirectUrl} />;
             }

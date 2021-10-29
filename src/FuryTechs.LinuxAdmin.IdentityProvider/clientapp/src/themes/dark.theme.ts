@@ -1,5 +1,5 @@
-import { red } from '@material-ui/core/colors';
-import { darken, ThemeOptions } from '@material-ui/core/styles';
+import { darken, ThemeOptions } from '@mui/material';
+import { red } from '@mui/material/colors';
 
 export const darkTheme: ThemeOptions = {
   palette: {
@@ -14,7 +14,7 @@ export const darkTheme: ThemeOptions = {
     error: {
       main: red.A700,
     },
-   
-    type: 'dark',
+
+    mode: 'dark',
   },
 };

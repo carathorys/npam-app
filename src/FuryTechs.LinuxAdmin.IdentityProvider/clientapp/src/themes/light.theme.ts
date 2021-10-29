@@ -1,5 +1,5 @@
-import { ThemeOptions } from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
+import { ThemeOptions } from '@mui/material';
+import { red } from '@mui/material/colors';
 
 export const lightTheme: ThemeOptions = {
   palette: {
@@ -14,6 +14,6 @@ export const lightTheme: ThemeOptions = {
     error: {
       main: red.A400,
     },
-    type: 'light',
+    mode: 'light',
   },
 };

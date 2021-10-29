@@ -14,7 +14,7 @@ export function isPropertyPersistent<T>(target: T, propertyKey: keyof T): boolea
 }
 
 export function getMetadata<T>(target: T): PersistStateMetadata<T> {
-  var data = Reflect.getMetadata(persistProperty, target);
+  const data = Reflect.getMetadata(persistProperty, target);
   return data;
 }
 
@@ -28,18 +28,16 @@ export function PersistState<T extends BaseState<T>, TCtor extends { new (...arg
   };
 }
 
-export function Persistent<T>(
-  isPersistent: boolean,
-): {
+export function Persistent<T>(isPersistent: boolean): {
   (target: T, key: keyof T): void;
   (target: T, key: keyof T): void;
 } {
-  function classLevelMetadata(target: T) {}
+  function classLevelMetadata(target: T) {
+    // ignore
+  }
 
   function propertyLevelMetadata(target: T, key: keyof T): void {
-    const existing = (Reflect.getOwnMetadata(persistProperty, target) as PersistStateMetadata<
-      T
-    >) || {
+    const existing = (Reflect.getOwnMetadata(persistProperty, target) as PersistStateMetadata<T>) || {
       persistProperties: [],
     };
     if (isPersistent) {

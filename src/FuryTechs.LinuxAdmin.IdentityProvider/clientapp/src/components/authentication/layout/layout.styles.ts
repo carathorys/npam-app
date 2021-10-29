@@ -1,14 +1,5 @@
-import { createStyles, Theme } from '@material-ui/core/styles';
-import { fade } from '@material-ui/core/styles';
+import { Css } from '../../../utils/Css.type';
 
-export const LayoutStyles = (theme: Theme) =>
-  createStyles({
-    root: {
-      paddingTop: theme.spacing(5),
-    },
-    
-    paper: {
-      background: fade(theme.palette.background.paper, 0.3),
-      backdropFilter: 'blur(50px)',
-    },
-  });
+export const rootStyle: Css = {
+  paddingTop: (theme) => theme.spacing(5),
+};

@@ -1,4 +1,4 @@
 export class BaseState<TState extends BaseState<TState>> {
-  persistentStorage: string = '';
+  persistentStorage: string;
   persistentProperties: (keyof TState)[] = [];
 }

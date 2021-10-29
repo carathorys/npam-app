@@ -1,7 +1,8 @@
-import React, { MouseEvent } from 'react';
+import React from 'react';
 
 import {
   Avatar,
+  Box,
   Button,
   Checkbox,
   CircularProgress,
@@ -10,32 +11,26 @@ import {
   Paper,
   TextField,
   Typography,
-  withStyles,
-} from '@material-ui/core';
-import { LockOutlined } from '@material-ui/icons';
+} from '@mui/material';
+import LockOutlined from '@mui/icons-material/LockOutlined';
 
 import { BaseComponent } from '../../../base';
 
-import { LoginProps } from './login.props';
 import { LoginState } from './login.state';
-import { LoginStyles } from './login.styles';
+import { avatarStyle, formControlStyle, formStyle, loaderStyle, paperStyle, wrapperStyle } from './login.styles';
 
 import { authService } from '../../../services';
 import './login.styles.css';
 
-class Login extends BaseComponent<LoginProps, LoginState> {
+export class LoginComponent extends BaseComponent<unknown, LoginState> {
   GetNewStateInstance(): LoginState {
     return new LoginState();
   }
 
-  async handleLogin(event: MouseEvent<HTMLButtonElement, MouseEvent>): Promise<void> {
+  async handleLogin(/*_: MouseEvent<HTMLButtonElement, MouseEvent>*/): Promise<void> {
     this.setState({ ...this.state, hasError: false, loading: true });
 
-    const loginResult = await authService.LogIn(
-      this.state.loginName,
-      this.state.password,
-      this.state.remember,
-    );
+    const loginResult = await authService.LogIn(this.state.loginName, this.state.password, this.state.remember);
     if (loginResult !== true) {
       this.setState({
         ...this.state,
@@ -57,80 +52,74 @@ class Login extends BaseComponent<LoginProps, LoginState> {
   }
 
   render() {
-    const { classes } = this.props;
     return (
-      <Container component='main' maxWidth='xs'>
-        <Paper className={classes.paper} elevation={15}>
-          <Avatar className={classes.avatar}>
+      <Container component="main" maxWidth="xs">
+        <Paper sx={paperStyle} elevation={15}>
+          <Avatar sx={avatarStyle}>
             <LockOutlined />
           </Avatar>
-          <Typography component='h1' variant='h5'>
+          <Typography component="h1" variant="h5">
             Sign in
           </Typography>
 
-          <form className={classes.form}>
-            <TextField
-              placeholder='User name'
-              variant='outlined'
-              margin='normal'
-              required
-              fullWidth
-              autoFocus
-              disabled={this.state.loading}
-              value={this.state?.loginName ?? ''}
-              onChange={this.fieldChanged('loginName').bind(this)}
-            />
-            <TextField
-              placeholder='Password'
-              variant='outlined'
-              required
-              fullWidth
-              className={`${classes.formControl} ${this.state.hasError ? 'error' : ''}`}
-              value={this.state?.password ?? ''}
-              error={this.state.hasError}
-              disabled={this.state.loading}
-              helperText={this.state.errorMessage}
-              onChange={this.fieldChanged('password').bind(this)}
-              type='password'
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={this.state.remember === true}
-                  disabled={this.state.loading}
-                  onChange={this.fieldChanged('remember', (event) => !this.state.remember).bind(
-                    this,
-                  )}
-                  color='primary'
-                />
-              }
-              label='Remember me'
-            />
-            <div className={classes.wrapper}>
-              <Button
+          <Box sx={formStyle}>
+            <form>
+              <TextField
+                placeholder="User name"
+                variant="outlined"
+                margin="normal"
+                required
                 fullWidth
-                variant='contained'
-                color='primary'
+                autoFocus
                 disabled={this.state.loading}
-                onClick={this.handleLogin.bind(this)}>
-                Login
-              </Button>
-              {this.state.loading && (
-                <div className={classes.loader}>
-                  <CircularProgress
-                    thickness={5}
-                    size={24}
-                    color='primary'
-                    variant='indeterminate'
+                value={this.state?.loginName ?? ''}
+                onChange={this.fieldChanged('loginName').bind(this)}
+              />
+              <TextField
+                placeholder="Password"
+                variant="outlined"
+                required
+                fullWidth
+                sx={formControlStyle}
+                className={`${this.state.hasError ? 'error' : ''}`}
+                value={this.state?.password ?? ''}
+                error={this.state.hasError}
+                disabled={this.state.loading}
+                helperText={this.state.errorMessage}
+                onChange={this.fieldChanged('password').bind(this)}
+                type="password"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.remember === true}
+                    disabled={this.state.loading}
+                    onChange={this.fieldChanged('remember', () => !this.state.remember).bind(this)}
+                    color="primary"
                   />
-                </div>
-              )}
-            </div>
-          </form>
+                }
+                label="Remember me"
+              />
+              <Box sx={wrapperStyle}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  disabled={this.state.loading}
+                  onClick={this.handleLogin.bind(this)}
+                >
+                  Login
+                </Button>
+                {this.state.loading && (
+                  <Box sx={loaderStyle}>
+                    <CircularProgress thickness={5} size={24} color="primary" variant="indeterminate" />
+                  </Box>
+                )}
+              </Box>
+            </form>
+          </Box>
         </Paper>
       </Container>
     );
   }
 }
-
-export const LoginComponent = withStyles(LoginStyles)(Login);

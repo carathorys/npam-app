@@ -17,12 +17,7 @@ export class AuthorizeService {
     return !!user;
   }
 
-  async generateEncryptedPayload(
-    loginName: string,
-    password: string,
-    publicKey: CryptoKey,
-    remember: boolean = false,
-  ) {
+  async generateEncryptedPayload(loginName: string, password: string, publicKey: CryptoKey, remember = false) {
     const encoder = new TextEncoder();
 
     const cipher = await window.crypto.subtle.encrypt(
@@ -38,19 +33,15 @@ export class AuthorizeService {
     );
     const arr = new Uint8Array(cipher);
     let s = '';
-    for (let d of arr) {
+    for (const d of arr) {
       s += String.fromCharCode(d);
     }
 
     return btoa(s);
   }
 
-  public async LogIn(
-    loginName: string,
-    password: string,
-    remember: boolean = false,
-  ): Promise<boolean> {
-    var tokenRequest = await fetch('account/generate', { method: 'get' });
+  public async LogIn(loginName: string, password: string, remember = false): Promise<boolean> {
+    const tokenRequest = await fetch('account/generate', { method: 'get' });
     if (tokenRequest.ok !== true) {
       throw new Error("Can't fetch CFRS token!");
     }
@@ -68,7 +59,7 @@ export class AuthorizeService {
     );
     const data = await this.generateEncryptedPayload(loginName, password, key, remember);
 
-    let httpResult = await fetch(`/account/login`, {
+    const httpResult = await fetch('/account/login', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
@@ -90,7 +81,7 @@ export class AuthorizeService {
   }
 
   async getUser() {
-    if (!!this._user?.profile) {
+    if (this._user?.profile) {
       return this._user.profile;
     }
 
@@ -219,9 +210,7 @@ export class AuthorizeService {
 
   unsubscribe(subscriptionId) {
     const subscriptionIndex = this._callbacks
-      .map((element, index) =>
-        element.subscription === subscriptionId ? { found: true, index } : { found: false },
-      )
+      .map((element, index) => (element.subscription === subscriptionId ? { found: true, index } : { found: false }))
       .filter((element) => element.found === true);
     if (subscriptionIndex.length !== 1) {
       throw new Error(`Found an invalid number of subscriptions ${subscriptionIndex.length}`);
@@ -258,7 +247,7 @@ export class AuthorizeService {
       return;
     }
 
-    let settings = {
+    const settings = {
       automaticSilentRenew: true,
       includeIdTokenInSilentRenew: true,
       userStore: new WebStorageStateStore({

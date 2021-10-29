@@ -1,4 +1,4 @@
-import { Theme } from '@material-ui/core';
+import { Theme } from '@mui/material';
 import { BaseState } from './base/base.state';
 import { PersistState, Persistent } from './base/base.state.decorator';
 

@@ -1,4 +1,4 @@
-import { DesktopWindowsOutlined } from '@material-ui/icons';
+import { DesktopWindowsOutlined } from '@mui/icons-material';
 import { RSA_PKCS1_PSS_PADDING } from 'constants';
 import { WebStorageStateStore } from 'oidc-client';
 import { ChangeEvent, Component } from 'react';
@@ -6,24 +6,24 @@ import { BaseProps } from './base.props';
 import { BaseState } from './base.state';
 import { getMetadata } from './base.state.decorator';
 
-export abstract class BaseComponent<
-  TProps extends BaseProps,
-  TState extends BaseState<TState>
-> extends Component<TProps, TState> {
+export abstract class BaseComponent<TProps extends BaseProps, TState extends BaseState<TState>> extends Component<
+  TProps,
+  TState
+> {
   // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(props: TProps) {
     super(props);
 
-    let state = this.GetNewStateInstance();
+    const state = this.GetNewStateInstance();
 
     const metadata = getMetadata(state);
 
-    if (!!metadata) {
+    if (metadata) {
       state.persistentProperties.push(...metadata?.persistProperties);
       const items = JSON.parse(localStorage.getItem(state.persistentStorage) ?? '{}');
       if (items instanceof Object)
-        for (let key of Object.keys(items)) {
-          if (!!items[key]) {
+        for (const key of Object.keys(items)) {
+          if (items[key]) {
             state[key] = items[key];
           }
         }
@@ -57,8 +57,8 @@ export abstract class BaseComponent<
   }
 
   async persistState(): Promise<void> {
-    let objectToPersist: Partial<TState> = {};
-    for (let { key, remove } of this.getKeysToStore()) {
+    const objectToPersist: Partial<TState> = {};
+    for (const { key, remove } of this.getKeysToStore()) {
       if (remove === true) {
         delete objectToPersist[key];
       } else {
@@ -68,7 +68,6 @@ export abstract class BaseComponent<
     // var key = await this.getEncryptionKey();
     // const privateKey = await window.crypto.subtle.exportKey("jwk", key.privateKey)
     // const publicKey = await window.crypto.subtle.exportKey("jwk", key.publicKey);
-
 
     // console.log('Key:', privateKey, publicKey);
     localStorage.setItem(this.state.persistentStorage, JSON.stringify(objectToPersist));
@@ -88,7 +87,7 @@ export abstract class BaseComponent<
   }
 
   async decrypt(data: Uint8Array, key: CryptoKey) {
-    let decrypted = await window.crypto.subtle.decrypt(
+    const decrypted = await window.crypto.subtle.decrypt(
       {
         name: 'RSA-OAEP',
       },
