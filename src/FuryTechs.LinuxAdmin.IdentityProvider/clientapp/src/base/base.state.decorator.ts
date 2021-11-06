@@ -1,4 +1,3 @@
-/* eslint-disable no-sequences */
 import 'reflect-metadata';
 import { BaseState } from './base.state';
 

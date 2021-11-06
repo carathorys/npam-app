@@ -1,17 +1,5 @@
 import React from 'react';
 
-import {
-  Avatar,
-  Box,
-  Button,
-  Checkbox,
-  CircularProgress,
-  Container,
-  FormControlLabel,
-  Paper,
-  TextField,
-  Typography,
-} from '@mui/material';
 import LockOutlined from '@mui/icons-material/LockOutlined';
 
 import { BaseComponent } from '../../../base';
@@ -21,6 +9,16 @@ import { avatarStyle, formControlStyle, formStyle, loaderStyle, paperStyle, wrap
 
 import { authService } from '../../../services';
 import './login.styles.css';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export class LoginComponent extends BaseComponent<unknown, LoginState> {
   GetNewStateInstance(): LoginState {

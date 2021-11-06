@@ -1,8 +1,5 @@
 import { Css } from './utils/Css.type';
 
-export const headerStyle: Css = {
-  backdropFilter: 'blur(25px)',
-};
 export const imageStyle: Css = {
   backgroundColor: (currentTheme) => currentTheme.palette.background.default,
   backgroundImage: 'url(images/background.jpg)',

@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import createTheme from '@mui/material/styles/createTheme';
 import { darkTheme } from './dark.theme';
 import { lightTheme } from './light.theme';
 
