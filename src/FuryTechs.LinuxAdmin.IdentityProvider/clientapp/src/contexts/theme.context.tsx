@@ -38,7 +38,6 @@ export const ThemeStore: React.FC = ({ children }: React.PropsWithChildren<unkno
     >
       <ThemeProvider theme={currentTheme}>
         <CssBaseline />
-
         {children}
       </ThemeProvider>
     </ThemeContext.Provider>
