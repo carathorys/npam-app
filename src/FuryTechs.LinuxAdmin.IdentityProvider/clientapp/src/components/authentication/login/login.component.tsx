@@ -1,13 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+
+import { useHistory, useRouteMatch } from 'react-router';
 
 import LockOutlined from '@mui/icons-material/LockOutlined';
 
-import {BaseComponent} from '../../../base';
+import { avatarStyle, formControlStyle, formStyle, loaderStyle, paperStyle, wrapperStyle } from './login.styles';
 
-import {LoginState} from './login.state';
-import {avatarStyle, formControlStyle, formStyle, loaderStyle, paperStyle, wrapperStyle} from './login.styles';
-
-import {authService} from '../../../services';
+import { authService } from '../../../services';
 import './login.styles.css';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
@@ -19,8 +18,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useQuery } from '../../../utils/useQuery';
 
 export const LoginComponent = () => {
+  const q = useQuery();
+  const history = useHistory();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [remember, setRemember] = useState(false);
@@ -31,7 +34,7 @@ export const LoginComponent = () => {
   const logIn = async (): Promise<void> => {
     setLoading(true);
     setError(false);
-
+    setErrorMessage('');
     const loginResult = await authService.LogIn(loginName, password, remember);
 
     setLoading(false);
@@ -39,15 +42,17 @@ export const LoginComponent = () => {
       setError(true);
       setErrorMessage('Invalid username or password!');
     } else {
-      // TODO: fetch Access Token
+      const uri = decodeURIComponent(q.get('ReturnUrl'));
+      history.replace(uri)
+      // ignore
     }
-  }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
       <Paper sx={paperStyle} elevation={15}>
         <Avatar sx={avatarStyle}>
-          <LockOutlined/>
+          <LockOutlined />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
@@ -77,7 +82,7 @@ export const LoginComponent = () => {
               error={error}
               disabled={loading}
               helperText={errorMessage}
-              onChange={evt => setPassword(evt.target.value)}
+              onChange={(evt) => setPassword(evt.target.value)}
               type="password"
             />
             <FormControlLabel
@@ -92,18 +97,12 @@ export const LoginComponent = () => {
               label="Remember me"
             />
             <Box sx={wrapperStyle}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                disabled={loading}
-                onClick={logIn}
-              >
+              <Button fullWidth variant="contained" color="primary" disabled={loading} onClick={logIn}>
                 Login
               </Button>
               {loading && (
                 <Box sx={loaderStyle}>
-                  <CircularProgress thickness={5} size={24} color="primary" variant="indeterminate"/>
+                  <CircularProgress thickness={5} size={24} color="primary" variant="indeterminate" />
                 </Box>
               )}
             </Box>
@@ -112,38 +111,4 @@ export const LoginComponent = () => {
       </Paper>
     </Container>
   );
-
-}
-
-// export class LoginComponent extends BaseComponent<unknown, LoginState> {
-//   GetNewStateInstance(): LoginState {
-//     return new LoginState();
-//   }
-//
-//   async handleLogin(/*_: MouseEvent<HTMLButtonElement, MouseEvent>*/): Promise<void> {
-//     this.setState({ ...this.state, hasError: false, loading: true });
-//
-//     const loginResult = await authService.LogIn(this.state.loginName, this.state.password, this.state.remember);
-//     if (loginResult !== true) {
-//       this.setState({
-//         ...this.state,
-//         hasError: true,
-//         loading: false,
-//         errorMessage: 'Invalid username or password!',
-//       });
-//     } else {
-//       this.setState({ ...this.state, hasError: false, loading: false });
-//     }
-//   }
-//
-//   getKeysToStore(): Array<{ key: keyof LoginState; remove?: boolean }> {
-//     const baseValue = super.getKeysToStore();
-//     const shouldRemove = this.state.remember !== true;
-//     baseValue.push({ key: 'loginName', remove: shouldRemove });
-//     baseValue.push({ key: 'password', remove: shouldRemove });
-//     return baseValue;
-//   }
-//
-//   render() {
-//   }
-// }
+};

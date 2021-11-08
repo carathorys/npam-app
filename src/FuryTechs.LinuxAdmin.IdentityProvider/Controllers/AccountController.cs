@@ -60,6 +60,9 @@ namespace FuryTechs.LinuxAdmin.IdentityProvider.Controllers
       return jwk.ToRSA();
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Login() => Redirect("/authentication" + Request.QueryString);
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(
